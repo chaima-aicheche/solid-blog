@@ -10,7 +10,9 @@ session_start();
 
 $router = new Router($_SERVER['REQUEST_URI']);
 
-$router->setBasePath('/stupid-blog/');
+$router->setBasePath('/solid-blog/');
+
+var_dump($router);
 
 $router->get('/', function () {
     $controller = new Controller();
