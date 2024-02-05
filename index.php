@@ -12,8 +12,6 @@ $router = new Router($_SERVER['REQUEST_URI']);
 
 $router->setBasePath('/solid-blog/');
 
-var_dump($router);
-
 $router->get('/', function () {
     $controller = new Controller();
     $controller->render('index');
