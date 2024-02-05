@@ -2,7 +2,15 @@
 
 namespace App\Class;
 
-class Database
+
+// Interface get BDD connection
+interface DatabaseConnection{
+    // Return instance of BDD connection
+    public function connect();
+}
+
+// Return private $connection PDO instance for BDD 
+class Database implements DatabaseConnection
 {
     private static $connection;
 
@@ -10,11 +18,11 @@ class Database
     {
     }
 
-    public static function getConnection()
-    {
-        if (self::$connection) {
+    public function connect(){
+        if (self::$connection){
             return self::$connection;
         }
+
         try {
             self::$connection = new \PDO('mysql:host=localhost;dbname=solid-blog;charset=utf8', 'root', '', [
                 \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
