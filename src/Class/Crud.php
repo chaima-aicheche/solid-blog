@@ -33,7 +33,9 @@ class Crud extends Database
     }
 
     public function GetAll(){
-    
+        $query = $this->Query('SELECT * FROM '. $this->table);
+        $find_all = $query->fetchAll();
+        return $find_all;
     }
 
     /**
