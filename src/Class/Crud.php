@@ -36,8 +36,8 @@ class Crud extends Database implements CurdInterface
         $query = $this->Query("SELECT * FROM {$this->table}");
         $allRecords = $query->fetchAll();
 
-    return $allRecords;
-}
+        return $allRecords;
+    }
 
     /**
      * Trouver des lignes de la table en fonction de critéres
