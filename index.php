@@ -4,8 +4,7 @@ use App\Class\Controller;
 use App\Services\Authentication\AuthenticationService;
 use App\Class\Crud;
 use App\Class\Test;
-
-
+use App\Manager\AuthenticationManager;
 use App\Router\Router;
 
 
@@ -17,10 +16,10 @@ session_start();
 $router = new Router($_SERVER['REQUEST_URI']);
 
 // $test = new Crud('user');
-
-$test = new AuthenticationService();
-
-$test->Register('max@hotmail.fr', 'test', 'test', 'max', 'max');
+$authService = new AuthenticationService();
+// $authService->Register('max@hotmail.fr', 'test', 'test', 'max', 'max');
+$test = new AuthenticationManager();
+$test->makeRegister($authService,'max@hotmail.fr', 'test', 'test', 'max', 'max');
 die;
 
 // var_dump($test->GetByAttributes(['id' => 1]));

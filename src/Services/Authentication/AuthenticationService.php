@@ -3,9 +3,9 @@
 namespace App\Services\Authentication;
 
 use App\Class\Crud;
-use App\Class\User;
+use App\Interfaces\AuthenticationInterface;
 
-class AuthenticationService {
+class AuthenticationService implements AuthenticationInterface {
 
     protected $crud;
 
@@ -16,8 +16,6 @@ class AuthenticationService {
 
     public function Register($email, $password, $confirmPassword, $firstname, $lastname)
     {
-
-        var_dump($this->crud->GetByAttributes(['id' => 1]));
 
         if (empty($email) || empty($password) || empty($confirmPassword) || empty($firstname) || empty($lastname)) {
             throw new \Exception("Tous les champs sont obligatoires");
@@ -47,5 +45,9 @@ class AuthenticationService {
 
             return;
         }
+    }
+
+    public function Login($email, $password){
+        echo $email;
     }
 }
