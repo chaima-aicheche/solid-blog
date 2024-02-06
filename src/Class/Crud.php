@@ -4,7 +4,7 @@ namespace App\Class;
 
 use App\Class\Database;
 
-class Crud extends Database
+class Crud extends Database implements CurdInterface
 {
 
     private $dbConnection;
@@ -76,7 +76,7 @@ class Crud extends Database
         return $this->Query('SELECT * FROM '.$this->table.' WHERE '. $liste_champs, $valeurs)->fetchAll();
     }
 
-    public function delete($id): void
+    public function Delete($id): void
     {
         $query = $this->dbConnection->prepare("DELETE FROM {$this->table} WHERE id = :id");
         $query->bindValue(':id', $id, \PDO::PARAM_INT);
@@ -85,28 +85,36 @@ class Crud extends Database
     
     
 
-    public function update(array $data, $id): void
-{
-    // Requête UPDATE
-    $sql = "UPDATE {$this->table} SET ";
-    $setValues = [];
-    foreach ($data as $column => $value) {
-        $setValues[] = "$column = :$column";
+    public function Update(array $data, $id): void
+    {
+        // Requête UPDATE
+        $sql = "UPDATE {$this->table} SET ";
+        $setValues = [];
+        foreach ($data as $column => $value) {
+            $setValues[] = "$column = :$column";
+        }
+        $sql .= implode(', ', $setValues);
+        $sql .= " WHERE id = :id";
+
+        // Préparer la requête
+        $query = $this->dbConnection->prepare($sql);
+
+        // Binder les valeurs
+        foreach ($data as $column => $value) {
+            $query->bindValue(":$column", $value);
+        }
+        $query->bindValue(':id', $id, \PDO::PARAM_INT);
+
+        // On exécute la requête
+        $query->execute();
     }
-    $sql .= implode(', ', $setValues);
-    $sql .= " WHERE id = :id";
 
-    // Préparer la requête
-    $query = $this->dbConnection->prepare($sql);
-
-    // Binder les valeurs
-    foreach ($data as $column => $value) {
-        $query->bindValue(":$column", $value);
-    }
-    $query->bindValue(':id', $id, \PDO::PARAM_INT);
-
-    // On exécute la requête
-    $query->execute();
 }
 
+interface CurdInterface {
+    public function Create();
+    public function GetAll();
+    public function GetByAttributes(array $attributes);
+    public function Update(array $data, $id);
+    public function Delete($id);
 }
