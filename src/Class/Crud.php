@@ -2,16 +2,16 @@
 
 namespace App\Class;
 
-use App\Class\Database;
+use App\Interfaces\DatabaseInterface;
 
-class Crud extends Database
+class Crud
 {
 
     protected $dbConnection;
     protected $table;
 
-    public function __construct($table) {
-        $this->dbConnection = Database::connect();
+    public function __construct(DatabaseInterface $databaseInterface, $table) {
+        $this->dbConnection = $databaseInterface->connect();
         $this->table = $table;
     }
 

@@ -215,20 +215,6 @@ class Post
         return $this;
     }
 
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'title' => $this->title,
-            'content' => $this->content,
-            'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
-            'updated_at' => $this->updatedAt ? $this->updatedAt->format('Y-m-d H:i:s') : null,
-            'user' => $this->user->getEmail(),
-            'comments' => array_map(fn ($comment) => $comment->getId(), $this->comments),
-            'category' => $this->category->getName()
-        ];
-    }
-
     // public function save()
     // {
     //     if (empty($this->id)) {
@@ -338,7 +324,7 @@ class Post
         $limit = 10;
         $offset = ($page - 1) * $limit;
         $sql = 'SELECT * FROM post ORDER BY created_at DESC LIMIT :limit OFFSET :offset';
-        $stmt = Database::getConnection()->prepare($sql);
+        $stmt = Database::connect()->prepare($sql);
         $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
         $stmt->execute();

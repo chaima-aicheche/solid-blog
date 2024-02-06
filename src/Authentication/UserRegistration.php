@@ -3,6 +3,7 @@
 namespace App\Authentication;
 
 use App\Class\Crud;
+use App\Class\Database;
 use App\Interfaces\RegistrationInterface;
 
 class UserRegistration implements RegistrationInterface
@@ -12,7 +13,7 @@ class UserRegistration implements RegistrationInterface
 
     public function __construct()
     {
-        $this->crud = new Crud('user');
+        $this->crud = new Crud(new Database(), 'user');
     }
 
     public function register($email, $password, $confirmPassword, $firstname, $lastname)

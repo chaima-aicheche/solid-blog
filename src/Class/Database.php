@@ -2,9 +2,10 @@
 
 namespace App\Class;
 
+use App\Interfaces\DatabaseInterface;
 
 // Return private $connection PDO instance for BDD 
-class Database
+class Database implements DatabaseInterface
 {
     private static $connection;
 
@@ -12,7 +13,7 @@ class Database
     {
     }
 
-    public static function connect(){
+    public function connect(){
         if (self::$connection){
             return self::$connection;
         }
