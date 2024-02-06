@@ -7,8 +7,8 @@ use App\Class\Database;
 class Crud extends Database
 {
 
-    private $dbConnection;
-    private $table;
+    protected $dbConnection;
+    protected $table;
 
     public function __construct($table) {
         $this->dbConnection = Database::connect();

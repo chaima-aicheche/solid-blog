@@ -1,11 +1,12 @@
 <?php
 
 use App\Class\Controller;
+use App\Services\Authentication\AuthenticationService;
 use App\Class\Crud;
 use App\Class\Test;
 
-use App\Router\Router;
 
+use App\Router\Router;
 
 
 require_once 'vendor/autoload.php';
@@ -17,12 +18,12 @@ $router = new Router($_SERVER['REQUEST_URI']);
 
 // $test = new Crud('user');
 
-$test = new Test();
+$test = new AuthenticationService();
 
-var_dump($test->getAllUsers());
+$test->Register('max@hotmail.fr', 'test', 'test', 'max', 'max');
 die;
 
-var_dump($test->GetByAttributes(['id' => 1]));
+// var_dump($test->GetByAttributes(['id' => 1]));
 
 $router->setBasePath('/solid-blog/');
 
