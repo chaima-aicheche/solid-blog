@@ -1,6 +1,7 @@
 <?php
 
 use App\Class\Controller;
+use App\Class\Crud;
 use App\Router\Router;
 
 
@@ -10,6 +11,10 @@ session_start();
 
 
 $router = new Router($_SERVER['REQUEST_URI']);
+
+$test = new Crud('user');
+
+var_dump($test->GetByAttributes(['id' => 1]));
 
 $router->setBasePath('/solid-blog/');
 
