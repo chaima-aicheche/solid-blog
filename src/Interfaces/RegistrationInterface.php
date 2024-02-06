@@ -1,19 +1,8 @@
 <?php
-namespace App\Classes;
 
-use App\Interfaces\RegistrationInterface;
+namespace App\Interfaces;
 
-class UserRegistration implements RegistrationInterface
+interface RegistrationInterface 
 {
-    public function register($email, $password, $confirmPassword, $firstname, $lastname)
-    {
-        
-        if ($password === $confirmPassword) {
-           
-            return true;
-        } else {
-           
-            return false;
-        }
-    }
+    public function register($email, $password, $confirmPassword, $firstname, $lastname);
 }

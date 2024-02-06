@@ -2,9 +2,9 @@
 
 namespace App\Class;
 
+use App\Authentication\UserRegistration;
 use App\Manager\AuthenticationManager;
 use App\Router\Router;
-use App\Services\Authentication\AuthenticationService;
 
 class Controller
 {
@@ -28,7 +28,8 @@ class Controller
     }
 
     public function manageRegister($email, $password, $confirmPassword, $firstname, $lastname){
-        $authService = new AuthenticationService();
+        
+        $authService = new UserRegistration();
 
         $test = new AuthenticationManager();
         

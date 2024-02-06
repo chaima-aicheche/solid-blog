@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Services\Authentication;
+namespace App\Authentication;
 
 use App\Class\Crud;
-use App\Interfaces\AuthenticationInterface;
+use App\Interfaces\RegistrationInterface;
 
-class AuthenticationService implements AuthenticationInterface {
+class UserRegistration implements RegistrationInterface
+{
 
     protected $crud;
 
@@ -14,9 +15,9 @@ class AuthenticationService implements AuthenticationInterface {
         $this->crud = new Crud('user');
     }
 
-    public function Register($email, $password, $confirmPassword, $firstname, $lastname)
+    public function register($email, $password, $confirmPassword, $firstname, $lastname)
     {
-
+        
         if (empty($email) || empty($password) || empty($confirmPassword) || empty($firstname) || empty($lastname)) {
             throw new \Exception("Tous les champs sont obligatoires");
 
@@ -45,9 +46,5 @@ class AuthenticationService implements AuthenticationInterface {
 
             return;
         }
-    }
-
-    public function Login($email, $password){
-        echo $email;
     }
 }

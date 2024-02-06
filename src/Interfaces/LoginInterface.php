@@ -1,19 +1,8 @@
 <?php
-namespace App\Classes;
 
-use App\Interfaces\LoginInterface;
+namespace App\Interfaces;
 
-class UserLogin implements LoginInterface
+interface LoginInterface 
 {
-    public function login($email, $password)
-    {
-        
-        if ($email === '' && $password === 'motdepasse') {
-           
-            return true;
-        } else {
-         
-            return false;
-        }
-    }
+    public function login($email, $password);
 }
