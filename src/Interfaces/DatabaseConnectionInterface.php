@@ -3,7 +3,7 @@
 namespace App\Interfaces;
 
 // Interface get BDD connection
-interface DatabaseConnection{
+interface DatabaseConnectionInterface{
     // Return instance of BDD connection
     public function connect();
 }
