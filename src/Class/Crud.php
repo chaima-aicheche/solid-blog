@@ -29,18 +29,18 @@ class Crud extends Database implements CurdInterface
     }
 
     public function Create(array $data)
-{
-    
-    $columns = implode(', ', array_keys($data));
-    $values = implode(', ', array_fill(0, count($data), '?'));
+    {
+        
+        $columns = implode(', ', array_keys($data));
+        $values = implode(', ', array_fill(0, count($data), '?'));
 
-    $sql = "INSERT INTO {$this->table} ({$columns}) VALUES ({$values})";
+        $sql = "INSERT INTO {$this->table} ({$columns}) VALUES ({$values})";
 
-    $query = $this->dbConnection->prepare($sql);
-    $query->execute(array_values($data));
+        $query = $this->dbConnection->prepare($sql);
+        $query->execute(array_values($data));
 
-    return $this->dbConnection->lastInsertId();
-}
+        return $this->dbConnection->lastInsertId();
+    }
 
     public function GetAll(){
         $query = $this->Query("SELECT * FROM {$this->table}");
@@ -112,7 +112,7 @@ class Crud extends Database implements CurdInterface
 }
 
 interface CurdInterface {
-    public function Create();
+    public function Create(array $data);
     public function GetAll();
     public function GetByAttributes(array $attributes);
     public function Update(array $data, $id);
