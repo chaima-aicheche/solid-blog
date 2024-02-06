@@ -2,8 +2,12 @@
 
 namespace App\Interfaces;
 
-interface AuthenticationInterface 
+interface RegistrationInterface 
 {
-    public function Register($email, $password, $confirmPassword, $firstname, $lastname);
-    public function Login($email, $password);
+    public function register($email, $password, $confirmPassword, $firstname, $lastname);
+}
+
+interface LoginInterface 
+{
+    public function login($email, $password);
 }
