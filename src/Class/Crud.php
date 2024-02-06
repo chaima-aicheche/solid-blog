@@ -33,9 +33,7 @@ class Crud extends Database
     }
 
     public function GetAll(){
-        $query = $this->Query('SELECT * FROM '. $this->table);
-        $find_all = $query->fetchAll();
-        return $find_all;
+    
     }
 
     /**
@@ -65,11 +63,37 @@ class Crud extends Database
         return $this->Query('SELECT * FROM '.$this->table.' WHERE '. $liste_champs, $valeurs)->fetchAll();
     }
 
-    public function Delete($id){
-
+    public function delete($id): void
+    {
+        $query = $this->dbConnection->prepare("DELETE FROM {$this->table} WHERE id = :id");
+        $query->bindValue(':id', $id, \PDO::PARAM_INT);
+        $query->execute();
     }
+    
+    
 
-    public function Update($id){
-
+    public function update(array $data, $id): void
+{
+    // Requête UPDATE
+    $sql = "UPDATE {$this->table} SET ";
+    $setValues = [];
+    foreach ($data as $column => $value) {
+        $setValues[] = "$column = :$column";
     }
+    $sql .= implode(', ', $setValues);
+    $sql .= " WHERE id = :id";
+
+    // Préparer la requête
+    $query = $this->dbConnection->prepare($sql);
+
+    // Binder les valeurs
+    foreach ($data as $column => $value) {
+        $query->bindValue(":$column", $value);
+    }
+    $query->bindValue(':id', $id, \PDO::PARAM_INT);
+
+    // On exécute la requête
+    $query->execute();
+}
+
 }
