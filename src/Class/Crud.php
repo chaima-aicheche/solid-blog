@@ -33,8 +33,11 @@ class Crud extends Database
     }
 
     public function GetAll(){
-    
-    }
+        $query = $this->Query("SELECT * FROM {$this->table}");
+        $allRecords = $query->fetchAll();
+
+    return $allRecords;
+}
 
     /**
      * Trouver des lignes de la table en fonction de critéres
