@@ -2,7 +2,9 @@
 
 namespace App\Class;
 
+use App\Manager\AuthenticationManager;
 use App\Router\Router;
+use App\Services\Authentication\AuthenticationService;
 
 class Controller
 {
@@ -23,6 +25,14 @@ class Controller
         $url = Router::url($url, $params);
         header("Location: $url", true, $code);
         exit();
+    }
+
+    public function manageRegister($email, $password, $confirmPassword, $firstname, $lastname){
+        $authService = new AuthenticationService();
+
+        $test = new AuthenticationManager();
+        
+        $test->makeRegister($authService, $email,  $password, $confirmPassword, $firstname, $lastname);
     }
 
     public function registerUser($email, $password, $confirmPassword, $firstname, $lastname)

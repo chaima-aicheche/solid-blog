@@ -12,17 +12,7 @@ require_once 'vendor/autoload.php';
 
 session_start();
 
-
 $router = new Router($_SERVER['REQUEST_URI']);
-
-// $test = new Crud('user');
-$authService = new AuthenticationService();
-// $authService->Register('max@hotmail.fr', 'test', 'test', 'max', 'max');
-$test = new AuthenticationManager();
-$test->makeRegister($authService,'max@hotmail.fr', 'test', 'test', 'max', 'max');
-die;
-
-// var_dump($test->GetByAttributes(['id' => 1]));
 
 $router->setBasePath('/solid-blog/');
 
@@ -43,7 +33,7 @@ $router->get('/register', function () {
 $router->post('/register', function () {
     try {
         $controller = new Controller();
-        $controller->registerUser($_POST['email'], $_POST['password'], $_POST['password_confirm'], $_POST['firstname'], $_POST['lastname']);
+        $controller->manageRegister($_POST['email'], $_POST['password'], $_POST['password_confirm'], $_POST['firstname'], $_POST['lastname']);
         $controller->redirect('login');
     } catch (\Exception $e) {
         $controller->render('register', ['error' => $e->getMessage()]);
