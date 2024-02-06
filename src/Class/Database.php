@@ -2,7 +2,7 @@
 
 namespace App\Class;
 
-use App\Interfaces\DatabaseInterface;
+use App\Interfaces\Database\DatabaseInterface;
 
 // Return private $connection PDO instance for BDD 
 class Database implements DatabaseInterface

@@ -2,7 +2,7 @@
 
 namespace App\Class;
 
-use App\Interfaces\DatabaseInterface;
+use App\Manager\Database\DatabaseManager;
 
 class Crud
 {
@@ -10,8 +10,9 @@ class Crud
     protected $dbConnection;
     protected $table;
 
-    public function __construct(DatabaseInterface $databaseInterface, $table) {
-        $this->dbConnection = $databaseInterface->connect();
+    public function __construct($table) {
+        $databaseManager = new DatabaseManager();
+        $this->dbConnection = $databaseManager->makeConnection(new Database());
         $this->table = $table;
     }
 

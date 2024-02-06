@@ -13,7 +13,7 @@ class UserRegistration implements RegistrationInterface
 
     public function __construct()
     {
-        $this->crud = new Crud(new Database(), 'user');
+        $this->crud = new Crud('user');
     }
 
     public function register($email, $password, $confirmPassword, $firstname, $lastname)
