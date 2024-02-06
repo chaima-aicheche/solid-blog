@@ -2,7 +2,10 @@
 
 use App\Class\Controller;
 use App\Class\Crud;
+use App\Class\Test;
+
 use App\Router\Router;
+
 
 
 require_once 'vendor/autoload.php';
@@ -12,7 +15,12 @@ session_start();
 
 $router = new Router($_SERVER['REQUEST_URI']);
 
-$test = new Crud('user');
+// $test = new Crud('user');
+
+$test = new Test();
+
+var_dump($test->getAllUsers());
+die;
 
 var_dump($test->GetByAttributes(['id' => 1]));
 

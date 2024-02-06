@@ -2,16 +2,9 @@
 
 namespace App\Class;
 
-// DEPENDENCIES INVERSION PRINCIPLE
-
-// Interface get BDD connection
-interface DatabaseConnectionInterface{
-    // Return instance of BDD connection
-    public static function connect();
-}
 
 // Return private $connection PDO instance for BDD 
-class Database implements DatabaseConnectionInterface
+class Database
 {
     private static $connection;
 

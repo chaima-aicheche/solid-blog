@@ -4,7 +4,7 @@ namespace App\Class;
 
 use App\Class\Database;
 
-class Crud extends Database implements CurdInterface
+class Crud extends Database
 {
 
     private $dbConnection;
@@ -109,12 +109,4 @@ class Crud extends Database implements CurdInterface
         $query->execute();
     }
 
-}
-
-interface CurdInterface {
-    public function Create(array $data);
-    public function GetAll();
-    public function GetByAttributes(array $attributes);
-    public function Update(array $data, $id);
-    public function Delete($id);
 }
