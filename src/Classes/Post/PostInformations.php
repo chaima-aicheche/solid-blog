@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Classes;
+namespace App\Classes\Post;
 
-use App\Interfaces\PostInformationsInterface;
+use App\Class\Crud;
+use App\Class\Post;
+use App\Interfaces\Post\PostInformationsInterface;
 
-class PostInformations implements PostInformationsInterface 
+class PostInformations extends Post implements PostInformationsInterface 
 {
-    protected $post;
 
     public function __construct()
     {
-        
+        $this->crud = new Crud('post');
     }
 
-    public function getPostInformation($id)
+    public function getPostInformations($id)
     {
-        
+        return $this->crud->GetByAttributes(['id' => $id]);
     }
 }
 

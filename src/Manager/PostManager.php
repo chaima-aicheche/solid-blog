@@ -1,11 +1,11 @@
 <?php
 
-use App\Interfaces\PostInformationsInterface;
+use App\Interfaces\Post\PostInformationsInterface;
 
 class PostManager 
 {
-    public function getPostInformation(PostInformationsInterface $postInformationsInterface, $id){
-        $postInformationsInterface->getPostInformation($id);
+    public function getPostInformations(PostInformationsInterface $postInformationsInterface, $id){
+        $postInformationsInterface->getPostInformations($id);
     }
 }
 

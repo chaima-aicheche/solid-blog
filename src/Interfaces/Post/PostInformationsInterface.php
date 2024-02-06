@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Interfaces\Post;
 
 
 interface PostInformationsInterface 
 {
-    public function getPostInformation($id);
+    public function getPostInformations($id);
 }

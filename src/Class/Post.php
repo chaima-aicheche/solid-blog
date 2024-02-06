@@ -7,6 +7,8 @@ use DateTime;
 class Post
 {
 
+    protected $crud;
+    
     public function __construct(
         private ?int $id = null,
         private ?string $title = null,

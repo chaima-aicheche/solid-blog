@@ -1,10 +1,7 @@
 <?php
 
 use App\Class\Controller;
-use App\Services\Authentication\AuthenticationService;
-use App\Class\Crud;
-use App\Class\Test;
-use App\Manager\AuthenticationManager;
+use App\Classes\Post\PostInformations;
 use App\Router\Router;
 
 
@@ -15,6 +12,10 @@ session_start();
 $router = new Router($_SERVER['REQUEST_URI']);
 
 $router->setBasePath('/solid-blog/');
+
+// $test = new PostInformations();
+
+// var_dump($test->getPostInformations(1));
 
 $router->get('/', function () {
     $controller = new Controller();
