@@ -7,12 +7,10 @@ use App\Class\User;
 
 class AuthenticationService {
 
-    protected $user;
     protected $crud;
 
     public function __construct()
     {
-        $this->user = new User();
         $this->crud = new Crud('user');
     }
 
@@ -40,7 +38,6 @@ class AuthenticationService {
         }
 
         if ($password === $confirmPassword) {
-            $user = new User();
             
             $this->crud->Create(['email' => $email, 'password' => $password, 'firstname' => $firstname, 'lastname' => $lastname, 'role' =>json_encode(["ROLE_USER"])]);
 
