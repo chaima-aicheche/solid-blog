@@ -112,7 +112,7 @@ class Crud extends Database implements CurdInterface
 }
 
 interface CurdInterface {
-    public function Create();
+    public function Create(array $data);
     public function GetAll();
     public function GetByAttributes(array $attributes);
     public function Update(array $data, $id);
