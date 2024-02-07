@@ -2,30 +2,26 @@
 
 namespace App\Classes;
 
+use App\Class\Crud;
+
 use App\Interfaces\LoginInterface;
-use App\Class\Database;
 
 class UserLogin implements LoginInterface
 {
-    private $dbConnection;
+    private $crud;
 
-    public function __construct()
+    public function __construct(Crud $crud)
     {
-        $this->dbConnection = Database::connect();
+        $this->crud = $crud;
     }
 
     public function login($email, $password)
     {
        
-        $sql = "SELECT * FROM utilisateurs WHERE email = ?";
-        
-        $query = $this->dbConnection->prepare($sql);
-        $query->execute([$email]);
+        $user = $this->crud->GetByAttributes(['email' => $email]);
 
-        $user = $query->fetch(\PDO::FETCH_ASSOC);
-
-        if ($user !== false && password_verify($password, $user['password'])) {
-         
+        if (!empty($user) && password_verify($password, $user[0]['password'])) {
+            
             return true;
         } else {
            
