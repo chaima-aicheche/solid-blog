@@ -92,7 +92,7 @@ class Category
 
     public function findOneById(int $id)
     {
-        $pdo = Database::getConnection();
+        $pdo = Database::connect();
         $query = $pdo->prepare('SELECT * FROM category WHERE id = :id');
         $query->execute([
             'id' => $id
@@ -106,7 +106,7 @@ class Category
 
     public function findAll()
     {
-        $pdo = Database::getConnection();
+        $pdo = Database::connect();
         $query = $pdo->prepare('SELECT * FROM category');
         $query->execute();
         $categories = $query->fetchAll(\PDO::FETCH_ASSOC);
@@ -144,7 +144,7 @@ class Category
      */
     private function insert(): self
     {
-        $pdo = Database::getConnection();
+        $pdo = Database::connect();
         $query = $pdo->prepare('INSERT INTO category (name) VALUES (:name)');
         $query->execute([
             'name' => $this->name
@@ -161,7 +161,7 @@ class Category
      */
     private function update(): self
     {
-        $pdo = Database::getConnection();
+        $pdo = Database::connect();
         $query = $pdo->prepare('UPDATE category SET name = :name WHERE id = :id');
         $query->execute([
             'name' => $this->name,
@@ -173,7 +173,7 @@ class Category
 
     public function delete()
     {
-        $pdo = Database::getConnection();
+        $pdo = Database::connect();
         $query = $pdo->prepare('DELETE FROM category WHERE id = :id');
         $query->bindValue(':id', $this->id, \PDO::PARAM_INT);
         $query->execute();

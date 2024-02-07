@@ -150,7 +150,7 @@ class Controller
     {
         $post = new Post();
         $posts = $post->findAllPaginated($page);
-        $pages = count($post->findAll()) / 10;
+        $pages = count($posts) / 10;
         $this->render('posts', ['posts' => $posts, 'pages' => $pages]);
     }
 

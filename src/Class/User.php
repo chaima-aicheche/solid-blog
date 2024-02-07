@@ -4,8 +4,11 @@ namespace App\Class;
 
 use App\Manager\Database\DatabaseManager;
 
-class User
+class User extends Crud
 {
+
+    protected $table = 'user';
+    protected $crud;
 
     public function __construct(
         private ?int $id = null,
@@ -17,6 +20,7 @@ class User
         private ?array $posts = [],
         private ?array $comments = []
     ) {
+        $this->crud = new Crud($this->table);
     }
 
     /**
@@ -249,24 +253,40 @@ class User
 
     public function findOneById(int $id): self
     {
-        $connection = Database::getConnection();
-        $query = $connection->prepare('SELECT * FROM user WHERE id = :id');
-        $query->bindValue(':id', $id, \PDO::PARAM_INT);
-        $query->execute();
-        $user = $query->fetch(\PDO::FETCH_ASSOC);
-        $this->id = $user['id'];
-        $this->email = $user['email'];
-        $this->password = $user['password'];
-        $this->firstname = $user['firstname'];
-        $this->lastname = $user['lastname'];
-        $this->role = json_decode($user['role'], true);
 
+        $user = $this->crud->GetByAttributes(['id' => $id]);
+
+        if ($user){
+            $this->id = $user[0]['id'];
+            $this->email = $user[0]['email'];
+            $this->password = $user[0]['password'];
+            $this->firstname = $user[0]['firstname'];
+            $this->lastname = $user[0]['lastname'];
+            $this->role = json_decode($user[0]['role'], true);
+        }
+        
+       
         return $this;
+
+
+        // $connection = Database::connect();
+        // $query = $connection->prepare('SELECT * FROM user WHERE id = :id');
+        // $query->bindValue(':id', $id, \PDO::PARAM_INT);
+        // $query->execute();
+        // $user = $query->fetch(\PDO::FETCH_ASSOC);
+        // $this->id = $user['id'];
+        // $this->email = $user['email'];
+        // $this->password = $user['password'];
+        // $this->firstname = $user['firstname'];
+        // $this->lastname = $user['lastname'];
+        // $this->role = json_decode($user['role'], true);
+
+        // return $this;
     }
 
     public function findAll(): array
     {
-        $connection = Database::getConnection();
+        $connection = Database::connect();
         $query = $connection->prepare('SELECT * FROM user');
         $query->execute();
         $users = $query->fetchAll(\PDO::FETCH_ASSOC);
@@ -306,18 +326,18 @@ class User
         $this->id = $connection->lastInsertId();
     }
 
-    private function update()
-    {
-        $connection = Database::getConnection();
-        $query = $connection->prepare('UPDATE user SET email = :email, password = :password, firstname = :firstname, lastname = :lastname, role = :role WHERE id = :id');
-        $query->bindValue(':id', $this->id, \PDO::PARAM_INT);
-        $query->bindValue(':email', $this->email, \PDO::PARAM_STR);
-        $query->bindValue(':password', $this->password, \PDO::PARAM_STR);
-        $query->bindValue(':firstname', $this->firstname, \PDO::PARAM_STR);
-        $query->bindValue(':lastname', $this->lastname, \PDO::PARAM_STR);
-        $query->bindValue(':role', json_encode($this->role), \PDO::PARAM_STR);
-        $query->execute();
-    }
+    // private function update()
+    // {
+    //     $connection = Database::getConnection();
+    //     $query = $connection->prepare('UPDATE user SET email = :email, password = :password, firstname = :firstname, lastname = :lastname, role = :role WHERE id = :id');
+    //     $query->bindValue(':id', $this->id, \PDO::PARAM_INT);
+    //     $query->bindValue(':email', $this->email, \PDO::PARAM_STR);
+    //     $query->bindValue(':password', $this->password, \PDO::PARAM_STR);
+    //     $query->bindValue(':firstname', $this->firstname, \PDO::PARAM_STR);
+    //     $query->bindValue(':lastname', $this->lastname, \PDO::PARAM_STR);
+    //     $query->bindValue(':role', json_encode($this->role), \PDO::PARAM_STR);
+    //     $query->execute();
+    // }
 
     public function findOneByEmail(string $email)
     {
@@ -340,11 +360,11 @@ class User
         }
     }
 
-    public function delete()
-    {
-        $connection = Database::getConnection();
-        $query = $connection->prepare('DELETE FROM user WHERE id = :id');
-        $query->bindValue(':id', $this->id, \PDO::PARAM_INT);
-        $query->execute();
-    }
+    // public function delete()
+    // {
+    //     $connection = Database::getConnection();
+    //     $query = $connection->prepare('DELETE FROM user WHERE id = :id');
+    //     $query->bindValue(':id', $this->id, \PDO::PARAM_INT);
+    //     $query->execute();
+    // }
 }
