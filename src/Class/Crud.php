@@ -3,6 +3,7 @@
 namespace App\Class;
 
 use App\Manager\Database\DatabaseManager;
+use DateTime;
 
 class Crud
 {
@@ -48,6 +49,38 @@ class Crud
         $allRecords = $query->fetchAll();
 
         return $allRecords;
+    }
+
+    /**
+     * Renvoyer une liste d'éléments limités pour la pagination
+     *
+     * @param [type] $page
+     * @return void
+     */
+    public function GetAllPaginate($page){
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        $sql = "SELECT * FROM {$this->table} ORDER BY created_at DESC LIMIT :limit OFFSET :offset";
+        $stmt = $this->dbConnection->prepare($sql);
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
+        $stmt->execute();
+        $results = [];
+        $arrayPost = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        // return $arrayPost;
+        foreach ($arrayPost as $arrayPost) {
+            $post = new Post();
+            $post->setId($arrayPost['id']);
+            $post->setTitle($arrayPost['title']);
+            $post->setContent($arrayPost['content']);
+            $post->setCreatedAt(new DateTime($arrayPost['created_at']));
+            $post->setUpdatedAt($arrayPost['updated_at'] ? new DateTime($arrayPost['updated_at']) : null);
+            $post->setUser((new User())->findOneById($arrayPost['user_id']));
+            $post->setCategory((new Category())->findOneById($arrayPost['category_id']));
+            $post->setComments((new Comment())->findByPost($arrayPost['id']));
+            $results[] = $post;
+        }
+        return $results;
     }
 
     /**

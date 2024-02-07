@@ -18,6 +18,11 @@ class PostInformations extends Post implements PostInformationsInterface
     {
         return $this->crud->GetByAttributes([$key => $value]);
     }
+
+    public function getPaginatePosts($page)
+    {
+        return $this->crud->GetAllPaginate($page);
+    }
 }
 
 ?>

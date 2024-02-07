@@ -2,10 +2,7 @@
 
 namespace App\Class;
 
-use App\Authentication\UserRegistration;
-use App\Manager\AuthenticationManager;
 use App\Router\Router;
-use App\Services\Authentication\AuthenticationService;
 
 class Controller
 {
@@ -26,54 +23,6 @@ class Controller
         $url = Router::url($url, $params);
         header("Location: $url", true, $code);
         exit();
-    }
-
-    public function manageRegister($email, $password, $confirmPassword, $firstname, $lastname){
-        
-        $authService = new UserRegistration();
-
-        $test = new AuthenticationManager();
-        
-        $test->makeRegister($authService, $email,  $password, $confirmPassword, $firstname, $lastname);
-    }
-
-    public function registerUser($email, $password, $confirmPassword, $firstname, $lastname)
-    {
-        $user = new User();
-
-        if (empty($email) || empty($password) || empty($confirmPassword) || empty($firstname) || empty($lastname)) {
-            throw new \Exception("Tous les champs sont obligatoires");
-
-            return;
-        }
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new \Exception("L'email n'est pas valide");
-
-            return;
-        }
-
-        if ($user->findOneByEmail($email)) {
-            throw new \Exception("L'email existe déjà");
-
-            return;
-        }
-
-        if ($password === $confirmPassword) {
-            $user = new User();
-            $user->setEmail($email);
-            $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
-            $user->setFirstname($firstname);
-            $user->setLastname($lastname);
-            $user->setRole(['ROLE_USER']);
-            $user->save();
-
-            return;
-        } else {
-            throw new \Exception("Les mots de passe ne correspondent pas");
-
-            return;
-        }
     }
 
     public function loginUser($email, $password)
@@ -147,13 +96,13 @@ class Controller
         return;
     }
 
-    public function paginatedPosts($page)
-    {
-        $post = new Post();
-        $posts = $post->findAllPaginated($page);
-        $pages = count($posts) / 10;
-        $this->render('posts', ['posts' => $posts, 'pages' => $pages]);
-    }
+    // public function paginatedPosts($page)
+    // {
+    //     $post = new Post();
+    //     $posts = $post->findAllPaginated($page);
+    //     $pages = count($posts) / 10;
+    //     $this->render('posts', ['posts' => $posts, 'pages' => $pages]);
+    // }
 
     public function viewPost($id, $error = null)
     {

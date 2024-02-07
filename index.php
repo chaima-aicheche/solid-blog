@@ -3,6 +3,7 @@
 use App\Class\Controller;
 use App\Classes\Post\PostInformations;
 use App\Controller\Authentication\AuthenticationController;
+use App\Controller\Post\PostController;
 use App\Router\Router;
 
 
@@ -14,9 +15,8 @@ $router = new Router($_SERVER['REQUEST_URI']);
 
 $router->setBasePath('/solid-blog/');
 
-$test = new PostInformations();
-
-var_dump($test->getPostInformations('id', 1));
+// $test = new PostController();
+// var_dump($test->getPaginatePosts(1));
 
 $router->get('/', function () {
     $controller = new Controller();
@@ -44,6 +44,7 @@ $router->post('/register', function () {
     }
 }, "register");
 
+
 $router->get('/login', function () {
     $controller = new Controller();
     $controller->render('login');
@@ -69,8 +70,9 @@ $router->get('/profile', function () {
 }, "profile");
 
 $router->get('/posts/:page', function ($page = 1) {
-    $controller = new Controller();
-    $controller->paginatedPosts($page);
+    $controller = new PostController();
+    $controller->getPaginatePosts($page);
+    var_dump($controller->getPaginatePosts($page));
 }, "posts")->with('page', '[0-9]+');
 
 $router->get('/post/:id', function ($id) {
