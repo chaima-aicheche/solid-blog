@@ -21,7 +21,7 @@ $router->get('/', function () {
 }, "home");
 
 
-
+// Authentication
 $router->get('/register', function () {
     try {
         $controller = new AuthenticationController();
@@ -61,11 +61,13 @@ $router->get('/logout', function () {
     $controller->logoutUser();
 }, "logout");
 
+// User
 $router->get('/profile', function () {
     $controller = new Controller();
     $controller->profile();
 }, "profile");
 
+// Post
 $router->get('/posts/:page', function ($page = 1) {
     $controller = new PostController();
     $controller->getPaginatePosts($page);
@@ -82,10 +84,12 @@ $router->post('/comments/:post_id', function ($post_id) {
         $controller = new Controller();
         $controller->createComment($_POST['content'], $post_id);
     } catch (\Exception $e) {
-        $controller->viewPost($post_id, ['error' => $e->getMessage()]);
+        $postController = new PostController();
+        $postController->viewPost($post_id, ['error' => $e->getMessage()]);
     }
 }, "add_comment")->with('post_id', '[0-9]+');
 
+// Admin
 $router->get('/admin/:action/:entity', function ($action = 'list', $entity = 'user') {
     $controller = new Controller();
     $controller->admin($action, $entity);
