@@ -13,9 +13,9 @@ $router = new Router($_SERVER['REQUEST_URI']);
 
 $router->setBasePath('/solid-blog/');
 
-// $test = new PostInformations();
+$test = new PostInformations();
 
-// var_dump($test->getPostInformations(1));
+var_dump($test->getPostInformations('id', 1));
 
 $router->get('/', function () {
     $controller = new Controller();

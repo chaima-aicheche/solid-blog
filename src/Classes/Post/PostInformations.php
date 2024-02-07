@@ -14,9 +14,9 @@ class PostInformations extends Post implements PostInformationsInterface
         $this->crud = new Crud('post');
     }
 
-    public function getPostInformations($id)
+    public function getPostInformations($key, $value)
     {
-        return $this->crud->GetByAttributes(['id' => $id]);
+        return $this->crud->GetByAttributes([$key => $value]);
     }
 }
 

@@ -5,5 +5,5 @@ namespace App\Interfaces\Post;
 
 interface PostInformationsInterface 
 {
-    public function getPostInformations($id);
+    public function getPostInformations($key, $value);
 }
