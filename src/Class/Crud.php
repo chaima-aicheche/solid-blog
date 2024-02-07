@@ -2,16 +2,17 @@
 
 namespace App\Class;
 
-use App\Class\Database;
+use App\Manager\Database\DatabaseManager;
 
-class Crud extends Database
+class Crud
 {
 
     protected $dbConnection;
     protected $table;
 
     public function __construct($table) {
-        $this->dbConnection = Database::connect();
+        $databaseManager = new DatabaseManager();
+        $this->dbConnection = $databaseManager->makeConnection(new Database());
         $this->table = $table;
     }
 

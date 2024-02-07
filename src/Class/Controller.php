@@ -2,6 +2,10 @@
 
 namespace App\Class;
 
+<<<<<<< HEAD
+=======
+use App\Authentication\UserRegistration;
+>>>>>>> post-manager
 use App\Manager\AuthenticationManager;
 use App\Router\Router;
 use App\Services\Authentication\AuthenticationService;
@@ -28,7 +32,8 @@ class Controller
     }
 
     public function manageRegister($email, $password, $confirmPassword, $firstname, $lastname){
-        $authService = new AuthenticationService();
+        
+        $authService = new UserRegistration();
 
         $test = new AuthenticationManager();
         
@@ -149,7 +154,7 @@ class Controller
     {
         $post = new Post();
         $posts = $post->findAllPaginated($page);
-        $pages = count($post->findAll()) / 10;
+        $pages = count($posts) / 10;
         $this->render('posts', ['posts' => $posts, 'pages' => $pages]);
     }
 

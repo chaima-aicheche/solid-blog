@@ -92,7 +92,7 @@ class Comment
 
     public function findOneById(int $id): self
     {
-        $pdo = Database::getConnection();
+        $pdo = Database::connect();
         $query = $pdo->prepare('SELECT * FROM comment WHERE id = :id');
         $query->execute([
             'id' => $id
@@ -110,7 +110,7 @@ class Comment
 
     public function findAll()
     {
-        $pdo = Database::getConnection();
+        $pdo = Database::connect();
         $query = $pdo->query('SELECT * FROM comment');
         $comments = [];
         foreach ($query->fetchAll() as $comment) {
@@ -126,7 +126,7 @@ class Comment
 
     public function findByPost(int $id)
     {
-        $pdo = Database::getConnection();
+        $pdo = Database::connect();
         $query = $pdo->prepare('SELECT * FROM comment WHERE post_id = :id');
         $query->execute([
             'id' => $id
@@ -144,7 +144,7 @@ class Comment
 
     public function findByUser(int $id)
     {
-        $pdo = Database::getConnection();
+        $pdo = Database::connect();
         $query = $pdo->prepare('SELECT * FROM comment WHERE user_id = :id');
         $query->execute([
             'id' => $id
@@ -171,7 +171,7 @@ class Comment
 
     private function insert()
     {
-        $pdo = Database::getConnection();
+        $pdo = Database::connect();
         $query = $pdo->prepare('INSERT INTO comment (content, created_at, user_id, post_id) VALUES (:content, :created_at, :user_id, :post_id)');
         $query->execute([
             'content' => $this->content,
@@ -184,7 +184,7 @@ class Comment
 
     private function update()
     {
-        $pdo = Database::getConnection();
+        $pdo = Database::connect();
         $query = $pdo->prepare('UPDATE comment SET content = :content, created_at = :created_at, user_id = :user_id, post_id = :post_id WHERE id = :id');
         $query->execute([
             'content' => $this->content,
@@ -197,7 +197,7 @@ class Comment
 
     public function delete()
     {
-        $pdo = Database::getConnection();
+        $pdo = Database::connect();
         $query = $pdo->prepare('DELETE FROM comment WHERE id = :id');
         $query->bindValue(':id', $this->id, \PDO::PARAM_INT);
         $query->execute();
