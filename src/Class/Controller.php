@@ -96,25 +96,17 @@ class Controller
         return;
     }
 
-    // public function paginatedPosts($page)
+    // public function viewPost($id, $error = null)
     // {
+    //     if (is_numeric($id) === false) {
+    //         throw new \Exception("L'identifiant du post n'est pas valide");
+
+    //         return;
+    //     }
     //     $post = new Post();
-    //     $posts = $post->findAllPaginated($page);
-    //     $pages = count($posts) / 10;
-    //     $this->render('posts', ['posts' => $posts, 'pages' => $pages]);
+    //     $post = $post->findOneById((int) $id);
+    //     $this->render('post', ['post' => $post, 'error' => $error]);
     // }
-
-    public function viewPost($id, $error = null)
-    {
-        if (is_numeric($id) === false) {
-            throw new \Exception("L'identifiant du post n'est pas valide");
-
-            return;
-        }
-        $post = new Post();
-        $post = $post->findOneById((int) $id);
-        $this->render('post', ['post' => $post, 'error' => $error]);
-    }
 
     public function createComment($content, $post_id)
     {

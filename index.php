@@ -15,9 +15,6 @@ $router = new Router($_SERVER['REQUEST_URI']);
 
 $router->setBasePath('/solid-blog/');
 
-// $test = new PostController();
-// var_dump($test->getPaginatePosts(1));
-
 $router->get('/', function () {
     $controller = new Controller();
     $controller->render('index');
@@ -76,7 +73,7 @@ $router->get('/posts/:page', function ($page = 1) {
 }, "posts")->with('page', '[0-9]+');
 
 $router->get('/post/:id', function ($id) {
-    $controller = new Controller();
+    $controller = new PostController();
     $controller->viewPost($id);
 }, "post")->with('id', '[0-9]+');
 
