@@ -3,7 +3,6 @@
 namespace App\Authentication;
 
 use App\Class\Crud;
-use App\Class\Database;
 use App\Interfaces\RegistrationInterface;
 
 class UserRegistration implements RegistrationInterface
@@ -38,8 +37,10 @@ class UserRegistration implements RegistrationInterface
         }
 
         if ($password === $confirmPassword) {
-            
-            $this->crud->Create(['email' => $email, 'password' => $password, 'firstname' => $firstname, 'lastname' => $lastname, 'role' =>json_encode(["ROLE_USER"])]);
+
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            $this->crud->Create(['email' => $email, 'password' => $hashedPassword, 'firstname' => $firstname, 'lastname' => $lastname, 'role' =>json_encode(["ROLE_USER"])]);
 
             return;
         } else {

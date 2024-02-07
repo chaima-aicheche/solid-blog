@@ -3,5 +3,5 @@
 namespace App\Interfaces\Database;
 
 interface DatabaseInterface {
-    public function connect();
+    public static function connect();
 }

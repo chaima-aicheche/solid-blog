@@ -2,6 +2,8 @@
 
 namespace App\Class;
 
+use App\Manager\Database\DatabaseManager;
+
 class User
 {
 
@@ -319,7 +321,8 @@ class User
 
     public function findOneByEmail(string $email)
     {
-        $connection = Database::getConnection();
+        $databaseManager = new DatabaseManager();
+        $connection = $databaseManager->makeConnection(new Database());
         $query = $connection->prepare('SELECT * FROM user WHERE email = :email');
         $query->bindValue(':email', $email, \PDO::PARAM_STR);
         $query->execute();

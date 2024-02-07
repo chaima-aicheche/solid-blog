@@ -13,7 +13,7 @@ class Database implements DatabaseInterface
     {
     }
 
-    public function connect(){
+    public static function connect(){
         if (self::$connection){
             return self::$connection;
         }
