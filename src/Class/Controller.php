@@ -2,10 +2,7 @@
 
 namespace App\Class;
 
-<<<<<<< HEAD
-=======
 use App\Authentication\UserRegistration;
->>>>>>> post-manager
 use App\Manager\AuthenticationManager;
 use App\Router\Router;
 use App\Services\Authentication\AuthenticationService;

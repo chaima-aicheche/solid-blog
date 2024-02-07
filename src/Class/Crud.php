@@ -84,7 +84,14 @@ class Crud
         $query->execute();
     }
     
-    
+    public function GetById($id)
+{
+    $query = $this->dbConnection->prepare("SELECT * FROM {$this->table} WHERE id = :id");
+    $query->bindValue(':id', $id, \PDO::PARAM_INT);
+    $query->execute();
+    $record = $query->fetch(\PDO::FETCH_ASSOC);
+    return $record;
+}
 
     public function Update(array $data, $id): void
     {

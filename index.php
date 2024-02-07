@@ -2,6 +2,7 @@
 
 use App\Class\Controller;
 use App\Classes\Post\PostInformations;
+use App\Classes\User\UserInformations;
 use App\Router\Router;
 
 
@@ -13,9 +14,9 @@ $router = new Router($_SERVER['REQUEST_URI']);
 
 $router->setBasePath('/solid-blog/');
 
-// $test = new PostInformations();
+$test = new UserInformations();
 
-// var_dump($test->getPostInformations(1));
+var_dump($test->getUserInformations(1));
 
 $router->get('/', function () {
     $controller = new Controller();

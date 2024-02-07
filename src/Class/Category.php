@@ -2,22 +2,31 @@
 
 namespace App\Class;
 
-class Category
+use App\Class\Crud;
+
+class Category extends Crud
 {
+    protected $table = 'category';
+
+    // Propriété pour stocker l'instance de Crud
+    private $crud;
 
     public function __construct(
         private ?int $id = null,
         private ?string $name = null,
         private ?array $posts = []
     ) {
+        // Appeler le constructeur de la classe parente
+        parent::__construct($this->table);
+
+        // Initialiser l'instance de Crud
+        $this->crud = new Crud($this->table);
     }
 
     /**
      * Get the value of id
-     * 
-     * @return ?int
-     */
-    public function getId(): ?int
+     */ 
+    public function GetId(): ?int
     {
         return $this->id;
     }
@@ -25,10 +34,9 @@ class Category
     /**
      * Set the value of id
      *
-     * @param ?int $id
      * @return  self
-     */
-    public function setId(?int $id): self
+     */ 
+    public function SetId(?int $id): self
     {
         $this->id = $id;
 
@@ -37,10 +45,8 @@ class Category
 
     /**
      * Get the value of name
-     * 
-     * @return ?string
-     */
-    public function getName(): ?string
+     */ 
+    public function GetName(): ?string
     {
         return $this->name;
     }
@@ -48,10 +54,9 @@ class Category
     /**
      * Set the value of name
      *
-     * @param ?string $name
      * @return  self
-     */
-    public function setName(?string $name): self
+     */ 
+    public function SetName(?string $name): self
     {
         $this->name = $name;
 
@@ -60,10 +65,8 @@ class Category
 
     /**
      * Get the value of posts
-     * 
-     * @return Post[]
-     */
-    public function getPosts(): array
+     */ 
+    public function GetPosts(): array
     {
         return $this->posts;
     }
@@ -71,17 +74,17 @@ class Category
     /**
      * Set the value of posts
      *
-     * @param Post[] $posts 
+     * @param Post[] $posts
      * @return  self
-     */
-    public function setPosts(array $posts): self
+     */ 
+    public function SetPosts(array $posts): self
     {
         $this->posts = $posts;
 
         return $this;
     }
 
-    public function toArray(): array
+    public function ToArray(): array
     {
         return [
             'id' => $this->id,
@@ -90,92 +93,50 @@ class Category
         ];
     }
 
-    public function findOneById(int $id)
+    public function FindOneById(int $id): self
     {
-        $pdo = Database::connect();
-        $query = $pdo->prepare('SELECT * FROM category WHERE id = :id');
-        $query->execute([
-            'id' => $id
-        ]);
-        $category = $query->fetch(\PDO::FETCH_ASSOC);
-        $this->setId($category['id'])
-            ->setName($category['name']);
+        $category = $this->GetById($id);
+
+        if ($category) {
+            $this->id = $category['id'];
+            $this->name = $category['name'];
+        }
 
         return $this;
     }
 
-    public function findAll()
+    public function FindAll(): array
     {
-        $pdo = Database::connect();
-        $query = $pdo->prepare('SELECT * FROM category');
-        $query->execute();
-        $categories = $query->fetchAll(\PDO::FETCH_ASSOC);
+        $categories = $this->GetAll();
+
         $results = [];
         foreach ($categories as $category) {
             $results[] = (new Category())
-                ->setId($category['id'])
-                ->setName($category['name']);
+                ->SetId($category['id'])
+                ->SetName($category['name']);
         }
 
         return $results;
     }
 
-
-    /**
-     * Save Post in database
-     *
-     * @return self
-     */
-    public function save(): self
+    public function Save(): self
     {
         if (is_null($this->id)) {
-            $this->insert();
+            $this->Create([
+                'name' => $this->name
+            ]);
         } else {
-            $this->update();
+            $this->Update([
+                'name' => $this->name
+            ], $this->id);
         }
 
         return $this;
     }
 
-    /**
-     * Insert post in database
-     *
-     * @return self
-     */
-    private function insert(): self
+    public function Delete($id): void
     {
-        $pdo = Database::connect();
-        $query = $pdo->prepare('INSERT INTO category (name) VALUES (:name)');
-        $query->execute([
-            'name' => $this->name
-        ]);
-        $this->id = $pdo->lastInsertId();
-
-        return $this;
-    }
-
-    /**
-     * Udpdate post in database
-     *
-     * @return self
-     */
-    private function update(): self
-    {
-        $pdo = Database::connect();
-        $query = $pdo->prepare('UPDATE category SET name = :name WHERE id = :id');
-        $query->execute([
-            'name' => $this->name,
-            'id' => $this->id
-        ]);
-
-        return $this;
-    }
-
-    public function delete()
-    {
-        $pdo = Database::connect();
-        $query = $pdo->prepare('DELETE FROM category WHERE id = :id');
-        $query->bindValue(':id', $this->id, \PDO::PARAM_INT);
-        $query->execute();
+        // Appeler la méthode Delete de Crud à travers l'instance $crud
+        $this->crud->Delete($id);
     }
 }
