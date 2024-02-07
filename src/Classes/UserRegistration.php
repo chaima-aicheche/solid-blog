@@ -1,28 +1,31 @@
 <?php
 
 namespace App\Classes;
+use App\Class\Crud;
 
 use App\Interfaces\RegistrationInterface;
-use App\Class\Database;
 
 class UserRegistration implements RegistrationInterface
 {
-    private $dbConnection;
+    private $crud;
 
-    public function __construct()
+    public function __construct(Crud $crud)
     {
-        $this->dbConnection = Database::connect();
+        $this->crud = $crud;
     }
 
     public function register($email, $password, $confirmPassword, $firstname, $lastname)
     {
-        
-        $sql = "INSERT INTO utilisateurs (email, password, firstname, lastname) VALUES (?, ?, ?, ?)";
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+       
+        $data = [
+            'email' => $email,
+            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+        ];
 
-        $query = $this->dbConnection->prepare($sql);
-        $query->execute([$email, $hashedPassword, $firstname, $lastname]);
-        
+        $userId = $this->crud->Create($data);
+
         
     }
 }
