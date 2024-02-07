@@ -2,8 +2,8 @@
 
 namespace App\Manager;
 
-use App\Interfaces\LoginInterface;
-use App\Interfaces\RegistrationInterface;
+use App\Interfaces\Authentication\LoginInterface;
+use App\Interfaces\Authentication\RegistrationInterface;
 
 class AuthenticationManager 
 {

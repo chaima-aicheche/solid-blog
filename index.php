@@ -2,6 +2,7 @@
 
 use App\Class\Controller;
 use App\Classes\Post\PostInformations;
+use App\Controller\Authentication\AuthenticationController;
 use App\Router\Router;
 
 
@@ -22,9 +23,11 @@ $router->get('/', function () {
     $controller->render('index');
 }, "home");
 
+
+
 $router->get('/register', function () {
     try {
-        $controller = new Controller();
+        $controller = new AuthenticationController();
         $controller->render('register');
     } catch (\Exception $e) {
         $controller->render('register', ['error' => $e->getMessage()]);
@@ -33,7 +36,7 @@ $router->get('/register', function () {
 
 $router->post('/register', function () {
     try {
-        $controller = new Controller();
+        $controller = new AuthenticationController();
         $controller->manageRegister($_POST['email'], $_POST['password'], $_POST['password_confirm'], $_POST['firstname'], $_POST['lastname']);
         $controller->redirect('login');
     } catch (\Exception $e) {

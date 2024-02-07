@@ -3,7 +3,7 @@
 namespace App\Authentication;
 
 use App\Class\Crud;
-use App\Interfaces\RegistrationInterface;
+use App\Interfaces\Authentication\RegistrationInterface;
 
 class UserRegistration implements RegistrationInterface
 {

@@ -8,9 +8,13 @@ use App\Interfaces\Database\DatabaseInterface;
 class Database implements DatabaseInterface
 {
     private static $connection;
+    private static $env;
+
 
     public function __construct()
     {
+        $envFile = parse_ini_file('.env.example');
+        self::$env = $envFile;
     }
 
     public static function connect(){
@@ -19,7 +23,7 @@ class Database implements DatabaseInterface
         }
 
         try {
-            self::$connection = new \PDO('mysql:host=localhost;dbname=solid-blog;charset=utf8', 'root', '', [
+            self::$connection = new \PDO('mysql:host='.self::$env['DB_HOST'].';dbname='.self::$env['DB_NAME'].';charset='.self::$env['DB_CHARSET'].'', self::$env['DB_USERNAME'], self::$env['DB_PASSWORD'], [
                 \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
                 \PDO::ATTR_TIMEOUT => 90
             ]);
