@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Manager;
+namespace App\Manager\Authentication;
 
 use App\Interfaces\Authentication\LoginInterface;
 use App\Interfaces\Authentication\RegistrationInterface;
+use App\Interfaces\Authentication\UserSessionInterface;
 
 class AuthenticationManager 
 {

@@ -27,6 +27,11 @@ class AuthenticationRoutes
                 $controller->render('register', ['error' => $e->getMessage()]);
             }
         }, "register");
+
+        $router->get('/logout', function () {
+            $controller = new AuthenticationController();
+            $controller->manageLogout();
+        }, "logout");
     }
 }
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Class\Controller;
+use App\Controller\Authentication\AuthenticationController;
 use App\Router\Router;
 use App\Router\Routes\AuthenticationRoutes;
 use App\Router\Routes\PostRoutes;
@@ -43,23 +44,20 @@ new PostRoutes($router);
 
 
 $router->get('/login', function () {
-    $controller = new Controller();
+    $controller = new AuthenticationController();
     $controller->render('login');
 }, "login");
 
 $router->post('/login', function () {
     try {
-        $controller = new Controller();
-        $controller->loginUser($_POST['email'], $_POST['password']);
+        $controller = new AuthenticationController();
+        $controller->manageLogin($_POST['email'], $_POST['password']);
     } catch (\Exception $e) {
         $controller->render('login', ['error' => $e->getMessage()]);
     }
 }, "login");
 
-$router->get('/logout', function () {
-    $controller = new Controller();
-    $controller->logoutUser();
-}, "logout");
+
 
 // User
 $router->get('/profile', function () {

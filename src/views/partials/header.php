@@ -1,6 +1,7 @@
 <?php
 
 use App\Class\Controller;
+use App\Controller\Authentication\AuthenticationController;
 use App\Router\Router;
 
 ?>
@@ -15,17 +16,17 @@ use App\Router\Router;
 
 <header>
     <h1>Stupid Blog</h1>
-    <?php if (Controller::getUser()) : ?>
-        <p>Bonjour <?= Controller::getUser()->getFirstname() ?> <?= Controller::getUser()->getLastname() ?></p>
+    <?php if (AuthenticationController::getUserSession()) : ?>
+        <p>Bonjour <?= AuthenticationController::getUserSession()->getFirstname() ?> <?= AuthenticationController::getUserSession()->getLastname() ?></p>
     <?php endif ?>
     <nav>
         <ul>
             <li><a href="<?= Router::url('home') ?>">Accueil</a></li>
             <li><a href="<?= Router::url('posts', ['page' => 1]) ?>">Articles</a></li>
-            <?php if (null !== Controller::getUser()) : ?>
+            <?php if (null !== AuthenticationController::getUserSession()) : ?>
                 <li><a href="<?= Router::url('profile') ?>">Profil</a></li>
                 <li><a href="<?= Router::url('logout') ?>">Se déconnecter</a></li>
-                <?php if (Controller::getUser()->hasRole('ROLE_ADMIN')) : ?>
+                <?php if (AuthenticationController::getUserSession()->hasRole('ROLE_ADMIN')) : ?>
                     <li><a href="<?= Router::url('admin', ['action' => 'list', 'entity' => 'user']) ?>">Admin</a></li>
                 <?php endif ?>
             <?php else : ?>
