@@ -2,8 +2,11 @@
 
 namespace App\Classes\Post;
 
+use App\Class\Category;
+use App\Class\Comment;
 use App\Class\Crud;
 use App\Class\Post;
+use App\Class\User;
 use App\Interfaces\Post\PostInformationsInterface;
 use DateTime;
 
@@ -44,7 +47,21 @@ class PostInformations extends Post implements PostInformationsInterface
 
     public function getPaginatePosts($page)
     {
-        return $this->crud->GetAllPaginate($page);
+        $arrayPosts = $this->crud->GetAllPaginate($page);
+        $results = [];
+        foreach ($arrayPosts as $arrayPost) {
+            $post = new Post();
+            $post->setId($arrayPost['id']);
+            $post->setTitle($arrayPost['title']);
+            $post->setContent($arrayPost['content']);
+            $post->setCreatedAt(new DateTime($arrayPost['created_at']));
+            $post->setUpdatedAt($arrayPost['updated_at'] ? new DateTime($arrayPost['updated_at']) : null);
+            $post->setUser((new User())->findOneById($arrayPost['user_id']));
+            $post->setCategory((new Category())->findOneById($arrayPost['category_id']));
+            $post->setComments((new Comment())->findByPost($arrayPost['id']));
+            $results[] = $post;
+        }
+        return $results;
     }
 }
 

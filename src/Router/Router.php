@@ -7,11 +7,11 @@ class Router
     private $url;
     private $routes = [];
     private static $namedRoutes = [];
-    private $basePath = '';
+    private $basePath = '/solid-blog';
 
-    public function __construct($url)
+    public function __construct()
     {
-        $this->url = trim($url, '/');
+        $this->url = trim($_SERVER['REQUEST_URI'], '/');
     }
 
     public function setBasePath($basePath)

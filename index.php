@@ -1,11 +1,9 @@
 <?php
 
 use App\Class\Controller;
-use App\Classes\Post\PostInformations;
-use App\Controller\Authentication\AuthenticationController;
-use App\Controller\Post\PostController;
 use App\Router\Router;
-
+use App\Router\Routes\AuthenticationRoutes;
+use App\Router\Routes\PostRoutes;
 
 require_once 'vendor/autoload.php';
 
@@ -22,24 +20,26 @@ $router->get('/', function () {
 
 
 // Authentication
-$router->get('/register', function () {
-    try {
-        $controller = new AuthenticationController();
-        $controller->render('register');
-    } catch (\Exception $e) {
-        $controller->render('register', ['error' => $e->getMessage()]);
-    }
-}, "register");
+new AuthenticationRoutes($router);
+new PostRoutes($router);
+// $router->get('/register', function () {
+//     try {
+//         $controller = new AuthenticationController();
+//         $controller->render('register');
+//     } catch (\Exception $e) {
+//         $controller->render('register', ['error' => $e->getMessage()]);
+//     }
+// }, "register");
 
-$router->post('/register', function () {
-    try {
-        $controller = new AuthenticationController();
-        $controller->manageRegister($_POST['email'], $_POST['password'], $_POST['password_confirm'], $_POST['firstname'], $_POST['lastname']);
-        $controller->redirect('login');
-    } catch (\Exception $e) {
-        $controller->render('register', ['error' => $e->getMessage()]);
-    }
-}, "register");
+// $router->post('/register', function () {
+//     try {
+//         $controller = new AuthenticationController();
+//         $controller->manageRegister($_POST['email'], $_POST['password'], $_POST['password_confirm'], $_POST['firstname'], $_POST['lastname']);
+//         $controller->redirect('login');
+//     } catch (\Exception $e) {
+//         $controller->render('register', ['error' => $e->getMessage()]);
+//     }
+// }, "register");
 
 
 $router->get('/login', function () {
@@ -68,26 +68,7 @@ $router->get('/profile', function () {
 }, "profile");
 
 // Post
-$router->get('/posts/:page', function ($page = 1) {
-    $controller = new PostController();
-    $controller->getPaginatePosts($page);
-    var_dump($controller->getPaginatePosts($page));
-}, "posts")->with('page', '[0-9]+');
 
-$router->get('/post/:id', function ($id) {
-    $controller = new PostController();
-    $controller->viewPost($id);
-}, "post")->with('id', '[0-9]+');
-
-$router->post('/comments/:post_id', function ($post_id) {
-    try {
-        $controller = new Controller();
-        $controller->createComment($_POST['content'], $post_id);
-    } catch (\Exception $e) {
-        $postController = new PostController();
-        $postController->viewPost($post_id, ['error' => $e->getMessage()]);
-    }
-}, "add_comment")->with('post_id', '[0-9]+');
 
 // Admin
 $router->get('/admin/:action/:entity', function ($action = 'list', $entity = 'user') {

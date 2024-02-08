@@ -3,6 +3,7 @@
 namespace App\Controller\Post;
 
 use App\Class\Controller;
+use App\Class\Crud;
 use App\Class\Post;
 use App\Classes\Post\PostInformations;
 use App\Manager\Post\PostManager;
@@ -15,8 +16,12 @@ class PostController extends Controller
 
         $postManager = new PostManager();
 
+        $postCrud = new Crud('post');
+
+        $postsNumber = $postCrud->GetAll();
+
         $posts = $postManager->getPaginatePosts($postInformations, $page);
-        $pages = count($posts) / 10;
+        $pages = count($postsNumber) / 10;
         $this->render('posts', ['posts' => $posts, 'pages' => $pages]);
     }
 
