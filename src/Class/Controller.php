@@ -104,22 +104,7 @@ class Controller
         $this->redirect('post', ['id' => $post->getId()]);
     }
 
-    public function admin($action = 'list', $entity = 'user', $id = null)
-    {
-        if (AuthenticationController::getUserSession() === null || !RoleController::userRoleVerify('ROLE_ADMIN')) {
-            $this->redirect('home');
-
-            return;
-        }
-
-        $action = $action . 'Admin';
-
-        if (method_exists($this, $action)) {
-            $this->$action($entity, $id);
-        } else {
-            throw new \Exception("L'action demandée n'existe pas");
-        }
-    }
+   
 
     public function listAdmin($entity)
     {
@@ -150,10 +135,13 @@ class Controller
 
     public function editAdmin($entity, $id)
     {
+        $entityName = $entity;
         $entity = ucfirst($entity);
         $className = "App\\Class\\$entity";
+
         $class = new $className();
         $instance = $class->findOneById($id);
+        $data = array();
         foreach ($_POST as $key => $value) {
             $key = explode('_', $key);
             $key = array_map(function ($word) {
@@ -172,13 +160,16 @@ class Controller
                 continue;
             }
             $setter = 'set' . $key;
-            var_dump([$key, $value]);
+            $data[$key] = $value;
+            
             if (method_exists($instance, $setter) && null !== $instance->$getter()) {
                 $instance->$setter($value);
             }
         }
 
-        $instance->save();
+        $crud = new Crud(strtolower($entityName));
+
+        $crud->Update($data, $id);
 
         $this->redirect('admin', ['entity' => strtolower($entity), 'action' => 'list']);
     }

@@ -116,14 +116,32 @@ class Crud
         $sql .= implode(', ', $setValues);
         $sql .= " WHERE id = :id";
 
+        
+        
         // Préparer la requête
         $query = $this->dbConnection->prepare($sql);
 
+        // var_dump($query);
+        $roles = '[';
+        
         // Binder les valeurs
         foreach ($data as $column => $value) {
-            $query->bindValue(":$column", $value);
+            if ($column == 'Role'){
+                foreach($value as $key => $role){
+                    if ($key < count($value) - 1){
+                        $roles .= '"'.$role.'",';
+                    } else {
+                        $roles .= '"'.$role.'"';
+                    }
+                }
+                $roles .= ']';
+                $query->bindValue(":$column", $roles);
+            } else {
+                $query->bindValue(":$column", $value);
+            }
         }
         $query->bindValue(':id', $id, \PDO::PARAM_INT);
+        
 
         // On exécute la requête
         $query->execute();

@@ -304,14 +304,14 @@ class User extends Crud
         return $usersArray;
     }
 
-    public function save()
-    {
-        if (null === $this->id) {
-            $this->insert();
-        } else {
-            $this->update();
-        }
-    }
+    // public function save($data, $id)
+    // {
+    //     if (null === $this->id) {
+    //         $this->insert();
+    //     } else {
+    //         $this->crud->Update($data, $id);
+    //     }
+    // }
 
     private function insert()
     {
