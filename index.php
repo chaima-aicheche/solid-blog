@@ -43,19 +43,19 @@ new PostRoutes($router);
 // }, "register");
 
 
-$router->get('/login', function () {
-    $controller = new AuthenticationController();
-    $controller->render('login');
-}, "login");
+// $router->get('/login', function () {
+//     $controller = new AuthenticationController();
+//     $controller->render('login');
+// }, "login");
 
-$router->post('/login', function () {
-    try {
-        $controller = new AuthenticationController();
-        $controller->manageLogin($_POST['email'], $_POST['password']);
-    } catch (\Exception $e) {
-        $controller->render('login', ['error' => $e->getMessage()]);
-    }
-}, "login");
+// $router->post('/login', function () {
+//     try {
+//         $controller = new AuthenticationController();
+//         $controller->manageLogin($_POST['email'], $_POST['password']);
+//     } catch (\Exception $e) {
+//         $controller->render('login', ['error' => $e->getMessage()]);
+//     }
+// }, "login");
 
 
 

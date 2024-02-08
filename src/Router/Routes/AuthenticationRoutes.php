@@ -9,6 +9,7 @@ class AuthenticationRoutes
 {
     public function __construct(Router $router)
     {
+        // Register 
         $router->get('/register', function () {
             try {
                 $controller = new AuthenticationController();
@@ -28,6 +29,22 @@ class AuthenticationRoutes
             }
         }, "register");
 
+        // Login
+        $router->get('/login', function () {
+            $controller = new AuthenticationController();
+            $controller->render('login');
+        }, "login");
+        
+        $router->post('/login', function () {
+            try {
+                $controller = new AuthenticationController();
+                $controller->manageLogin($_POST['email'], $_POST['password']);
+            } catch (\Exception $e) {
+                $controller->render('login', ['error' => $e->getMessage()]);
+            }
+        }, "login");
+
+        // Logout 
         $router->get('/logout', function () {
             $controller = new AuthenticationController();
             $controller->manageLogout();
