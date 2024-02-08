@@ -2,6 +2,8 @@
 
 namespace App\Class;
 
+use App\Controller\Authentication\AuthenticationController;
+use App\Controller\Role\RoleController;
 use App\Router\Router;
 
 class Controller
@@ -104,7 +106,7 @@ class Controller
 
     public function admin($action = 'list', $entity = 'user', $id = null)
     {
-        if (self::getUser() === null || !in_array('ROLE_ADMIN', self::getUser()->getRole())) {
+        if (AuthenticationController::getUserSession() === null || !RoleController::userRoleVerify('ROLE_ADMIN')) {
             $this->redirect('home');
 
             return;

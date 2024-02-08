@@ -1,7 +1,7 @@
 <?php
 
-use App\Class\Controller;
 use App\Class\Post;
+use App\Controller\Authentication\AuthenticationController;
 use App\Router\Router;
 
 /** @var Post $post */
@@ -22,7 +22,7 @@ $post;
             <p><?= $comment->getUser()->getFirstname() ?> <?= $comment->getUser()->getLastname() ?></p>
             <p><?= $comment->getCreatedAt()->format('d/m/Y') ?></p>
         <?php endforeach; ?>
-        <?php if (Controller::getUser()) : ?>
+        <?php if (AuthenticationController::getUserSession()) : ?>
             <?php if (isset($error['error'])) : ?>
                 <p><?= $error['error'] ?></p>
             <?php endif; ?>
