@@ -235,10 +235,10 @@ class User extends Crud
         return $this;
     }
 
-    public function hasRole(string $role): bool
-    {
-        return in_array($role, $this->role);
-    }
+    // public function hasRole(string $role): bool
+    // {
+    //     return in_array($role, $this->role);
+    // }
 
     public function toArray(): array
     {
