@@ -5,5 +5,5 @@ namespace App\Interfaces\User;
 
 interface UserInformationsInterface 
 {
-    public function getUserInformations($id);
+    public function getUserInformations($key, $value);
 }

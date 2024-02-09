@@ -1,8 +1,7 @@
 <?php
 
 use App\Class\Controller;
-use App\Classes\Post\PostInformations;
-use App\Classes\User\UserInformations;
+use App\Class\Crud;
 use App\Router\Router;
 
 
@@ -10,13 +9,14 @@ require_once 'vendor/autoload.php';
 
 session_start();
 
+
 $router = new Router($_SERVER['REQUEST_URI']);
 
+$test = new Crud('user');
+
+var_dump($test->GetByAttributes(['id' => 1]));
+
 $router->setBasePath('/solid-blog/');
-
-$test = new UserInformations();
-
-var_dump($test->getUserInformations(1));
 
 $router->get('/', function () {
     $controller = new Controller();
@@ -35,7 +35,7 @@ $router->get('/register', function () {
 $router->post('/register', function () {
     try {
         $controller = new Controller();
-        $controller->manageRegister($_POST['email'], $_POST['password'], $_POST['password_confirm'], $_POST['firstname'], $_POST['lastname']);
+        $controller->registerUser($_POST['email'], $_POST['password'], $_POST['password_confirm'], $_POST['firstname'], $_POST['lastname']);
         $controller->redirect('login');
     } catch (\Exception $e) {
         $controller->render('register', ['error' => $e->getMessage()]);

@@ -38,23 +38,23 @@ class User
         return $this;
     }
 
-    public function FindOneByEmail(string $email): ?self
-    {
-        $user = $this->crud->getByAttributes(['email' => $email]);
+    // public function FindOneByEmail(string $email): ?self
+    // {
+    //     $user = $this->crud->getByAttributes(['email' => $email]);
 
-        if ($user) {
-            $user = $user[0];
-            $this->id = $user['id'];
-            $this->email = $user['email'];
-            $this->password = $user['password'];
-            $this->firstname = $user['firstname'];
-            $this->lastname = $user['lastname'];
-            $this->role = json_decode($user['role'], true);
-            return $this;
-        }
+    //     if ($user) {
+    //         $user = $user[0];
+    //         $this->id = $user['id'];
+    //         $this->email = $user['email'];
+    //         $this->password = $user['password'];
+    //         $this->firstname = $user['firstname'];
+    //         $this->lastname = $user['lastname'];
+    //         $this->role = json_decode($user['role'], true);
+    //         return $this;
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
     public function FindAll(): array
     {
